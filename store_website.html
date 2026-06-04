@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>PaperPoint — Útiles de Oficina y Escuela</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css"/>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'Segoe UI',sans-serif;background:#f5f7fa;color:#1a1a2e;}
+  a{text-decoration:none;color:inherit;}
+
+  nav{background:#1a3a8f;color:#fff;padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:60px;position:sticky;top:0;z-index:100;}
+  .logo{font-size:1.4rem;font-weight:700;letter-spacing:1px;}
+  .logo span{color:#ffd700;}
+  .nav-links{display:flex;gap:1.5rem;font-size:.9rem;}
+  .nav-links a{color:#fff;opacity:.85;transition:opacity .2s;}
+  .nav-links a:hover{opacity:1;}
+  .cart-btn{background:#ffd700;color:#1a1a2e;border:none;padding:.45rem 1rem;border-radius:20px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:6px;font-size:.85rem;}
+  .cart-btn:hover{background:#f0c800;}
+
+  .hero{background:linear-gradient(135deg,#1a3a8f 0%,#2563eb 60%,#1a3a8f 100%);color:#fff;padding:4rem 2rem;text-align:center;}
+  .hero h1{font-size:2.4rem;font-weight:700;margin-bottom:.75rem;}
+  .hero h1 span{color:#ffd700;}
+  .hero p{font-size:1.05rem;opacity:.9;margin-bottom:2rem;}
+  .hero-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;}
+  .btn-primary{background:#ffd700;color:#1a1a2e;padding:.7rem 1.8rem;border-radius:25px;font-weight:700;font-size:.95rem;cursor:pointer;border:none;transition:transform .15s;}
+  .btn-primary:hover{transform:scale(1.04);}
+  .btn-outline{background:transparent;color:#fff;padding:.7rem 1.8rem;border-radius:25px;font-weight:600;font-size:.95rem;cursor:pointer;border:2px solid rgba(255,255,255,.6);transition:border-color .2s;}
+  .btn-outline:hover{border-color:#fff;}
+
+  .section{padding:3rem 2rem;max-width:1100px;margin:0 auto;}
+  .section-title{font-size:1.5rem;font-weight:700;margin-bottom:1.5rem;color:#1a1a2e;}
+  .categories{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:1rem;}
+  .cat-card{background:#fff;border-radius:14px;padding:1.25rem 1rem;text-align:center;cursor:pointer;border:2px solid transparent;transition:border-color .2s,transform .15s;box-shadow:0 2px 8px rgba(0,0,0,.06);}
+  .cat-card:hover,.cat-card.active{border-color:#2563eb;transform:translateY(-3px);}
+  .cat-card.active{background:#eef3ff;}
+  .cat-card .cat-icon{font-size:2rem;margin-bottom:.5rem;}
+  .cat-card p{font-size:.82rem;font-weight:600;color:#444;}
+
+  .filter-bar{display:flex;align-items:center;gap:.75rem;margin-bottom:1.25rem;flex-wrap:wrap;}
+  .filter-bar span{font-size:.9rem;color:#555;}
+  .clear-btn{background:none;border:1px solid #aaa;padding:.3rem .8rem;border-radius:20px;font-size:.82rem;cursor:pointer;color:#555;}
+  .clear-btn:hover{background:#eee;}
+
+  .products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1.25rem;}
+  .product-card{background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.07);transition:transform .15s;}
+  .product-card:hover{transform:translateY(-4px);}
+  .product-img{width:100%;height:150px;display:flex;align-items:center;justify-content:center;font-size:3.5rem;background:#e8eef8;}
+  .product-info{padding:1rem;}
+  .product-name{font-weight:600;font-size:.9rem;margin-bottom:.3rem;}
+  .product-price{color:#2563eb;font-weight:700;font-size:1.05rem;margin-bottom:.75rem;}
+  .add-btn{width:100%;background:#1a3a8f;color:#fff;border:none;padding:.5rem;border-radius:8px;font-size:.85rem;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;transition:background .2s;}
+  .add-btn:hover{background:#2563eb;}
+
+  .badge{display:inline-block;background:#ffd700;color:#1a1a2e;font-size:.7rem;font-weight:700;padding:2px 7px;border-radius:10px;margin-left:6px;vertical-align:middle;}
+  .badge-new{background:#22c55e;color:#fff;}
+
+  /* Lista de útiles */
+  .utiles-section{background:#fff;border-radius:16px;box-shadow:0 2px 12px rgba(0,0,0,.08);padding:2rem;margin-top:0;}
+  .utiles-section h2{font-size:1.2rem;font-weight:700;margin-bottom:1rem;color:#1a3a8f;}
+  .utiles-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:.6rem;}
+  .utiles-item{display:flex;align-items:center;gap:8px;font-size:.88rem;padding:.5rem .75rem;background:#f0f4ff;border-radius:8px;}
+  .utiles-item input[type=checkbox]{accent-color:#1a3a8f;width:16px;height:16px;cursor:pointer;flex-shrink:0;}
+  .utiles-item label{cursor:pointer;}
+  .utiles-item.checked label{text-decoration:line-through;color:#999;}
+  .utiles-actions{margin-top:1rem;display:flex;gap:.75rem;flex-wrap:wrap;}
+  .utiles-actions button{padding:.45rem 1.1rem;border-radius:20px;font-size:.85rem;font-weight:600;cursor:pointer;border:none;}
+  .btn-reset{background:#e5e7eb;color:#333;}
+  .btn-print{background:#1a3a8f;color:#fff;}
+  .utiles-progress{margin-top:.75rem;font-size:.85rem;color:#555;}
+  .progress-bar{height:6px;background:#dde4f5;border-radius:10px;margin-top:.4rem;overflow:hidden;}
+  .progress-fill{height:100%;background:#2563eb;border-radius:10px;transition:width .3s;}
+
+  .store-info{background:#1a3a8f;color:#fff;padding:3rem 2rem;}
+  .store-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:2rem;}
+  .info-block h3{font-size:1.1rem;font-weight:700;margin-bottom:.75rem;color:#ffd700;}
+  .info-block p,.info-block li{font-size:.9rem;opacity:.88;line-height:1.8;}
+  .info-block ul{list-style:none;padding:0;}
+  .info-block li{display:flex;align-items:center;gap:8px;}
+
+  footer{background:#111;color:#888;text-align:center;padding:1.25rem;font-size:.82rem;}
+
+  .toast{position:fixed;bottom:1.5rem;right:1.5rem;background:#22c55e;color:#fff;padding:.7rem 1.2rem;border-radius:10px;font-weight:600;font-size:.9rem;opacity:0;pointer-events:none;transition:opacity .3s;z-index:200;}
+  .toast.show{opacity:1;}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">Paper<span>Point</span></div>
+  <div class="nav-links">
+    <a href="#productos">Productos</a>
+    <a href="#categorias">Categorías</a>
+    <a href="#lista-utiles">Lista de Útiles</a>
+    <a href="#tienda">Nuestra Tienda</a>
+  </div>
+  <button class="cart-btn" id="cartBtn">
+    <i class="ti ti-shopping-cart"></i>
+    Carrito (<span id="cartCount">0</span>)
+  </button>
+</nav>
+
+<div class="hero">
+  <h1>Todo para tu <span>Oficina y Escuela</span></h1>
+  <p>Útiles de calidad a los mejores precios — ¡visítanos en nuestra tienda física!</p>
+  <div class="hero-btns">
+    <button class="btn-primary" onclick="document.getElementById('productos').scrollIntoView({behavior:'smooth'})">Ver Productos</button>
+    <button class="btn-outline" onclick="document.getElementById('tienda').scrollIntoView({behavior:'smooth'})">Encuéntranos</button>
+  </div>
+</div>
+
+<!-- CATEGORÍAS -->
+<div class="section" id="categorias">
+  <div class="section-title">Comprar por Categoría</div>
+  <div class="categories" id="catGrid"></div>
+</div>
+
+<!-- PRODUCTOS -->
+<div class="section" id="productos">
+  <div class="section-title">Productos Destacados</div>
+  <div class="filter-bar" id="filterBar" style="display:none;">
+    <span>Filtrando por: <strong id="filterLabel"></strong></span>
+    <button class="clear-btn" onclick="clearFilter()">✕ Ver todos</button>
+  </div>
+  <div class="products-grid" id="productGrid"></div>
+</div>
+
+<!-- LISTA DE ÚTILES -->
+<div class="section" id="lista-utiles">
+  <div class="section-title">Lista de Útiles Escolares</div>
+  <div class="utiles-section">
+    <h2>✅ Marca lo que ya tienes</h2>
+    <div class="utiles-list" id="utilesList"></div>
+    <div class="utiles-progress">
+      <span id="utilesText">0 de 0 útiles listos</span>
+      <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+    </div>
+    <div class="utiles-actions">
+      <button class="btn-reset" onclick="resetUtiles()">Reiniciar lista</button>
+      <button class="btn-print" onclick="window.print()"><i class="ti ti-printer"></i> Imprimir lista</button>
+    </div>
+  </div>
+</div>
+
+<!-- TIENDA -->
+<div class="store-info" id="tienda">
+  <div class="store-inner">
+    <div class="info-block">
+      <h3><i class="ti ti-map-pin"></i> Visítanos</h3>
+      <p>Av. Amazonas N21-147<br>Quito, Ecuador</p>
+      <br>
+      <p>📞 +593 2 123-4567</p>
+      <p>📧 info@paperpoint.ec</p>
+    </div>
+    <div class="info-block">
+      <h3><i class="ti ti-clock"></i> Horario de Atención</h3>
+      <ul>
+        <li><i class="ti ti-check"></i> Lun – Vie: 8:00 AM – 7:00 PM</li>
+        <li><i class="ti ti-check"></i> Sábado: 9:00 AM – 5:00 PM</li>
+        <li><i class="ti ti-x" style="color:#f87171"></i> Domingo: Cerrado</li>
+      </ul>
+    </div>
+    <div class="info-block">
+      <h3><i class="ti ti-star"></i> ¿Por qué PaperPoint?</h3>
+      <ul>
+        <li><i class="ti ti-check"></i> Más de 500 productos en stock</li>
+        <li><i class="ti ti-check"></i> Precios al por mayor disponibles</li>
+        <li><i class="ti ti-check"></i> Pedidos para colegios y oficinas</li>
+        <li><i class="ti ti-check"></i> Atención personalizada y local</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<footer>© 2026 PaperPoint — Útiles de Oficina y Escuela. Quito, Ecuador.</footer>
+<div class="toast" id="toast">¡Producto añadido al carrito!</div>
+
+<script>
+const categories = [
+  {id:"lapices", label:"Esferos y Lápices", icon:"✏️"},
+  {id:"libros",  label:"Libros",            icon:"📖"},
+  {id:"cuadernos",label:"Cuadernos y Libretas",icon:"📓"},
+  {id:"oficina", label:"Útiles de Oficina", icon:"📎"},
+  {id:"arte",    label:"Arte y Dibujo",     icon:"🎨"},
+  {id:"archivos",label:"Archivadores",      icon:"🗂️"},
+  {id:"papel",   label:"Papel e Impresión", icon:"🖨️"},
+  {id:"utiles",  label:"Lista de Útiles",   icon:"📋"},
+];
+
+const products = [
+  {name:"Esferos BIC Clásicos (x10)",       price:1.25, emoji:"🖊️", cat:"lapices",  badge:""},
+  {name:"Set de Lápices Staedtler (x12)",   price:3.50, emoji:"✏️", cat:"lapices",  badge:""},
+  {name:"Lápices de Colores (x24)",         price:4.20, emoji:"🖍️", cat:"lapices",  badge:"Nuevo", btype:"new"},
+  {name:"Diccionario Español Larousse",     price:12.99,emoji:"📖", cat:"libros",   badge:""},
+  {name:"Libro de Matemáticas Básicas",     price:8.50, emoji:"📚", cat:"libros",   badge:""},
+  {name:"Cuaderno Universitario 100 hojas", price:2.80, emoji:"📓", cat:"cuadernos",badge:""},
+  {name:"Agenda Escolar 2026",              price:4.50, emoji:"📅", cat:"cuadernos",badge:"Nuevo", btype:"new"},
+  {name:"Notas Adhesivas 3x3 (4 pads)",    price:2.00, emoji:"🗒️", cat:"oficina",  badge:""},
+  {name:"Engrapadora + 1000 grapas",        price:5.99, emoji:"🖇️", cat:"oficina",  badge:"Oferta"},
+  {name:"Tijeras 8\" Profesional",          price:2.50, emoji:"✂️", cat:"oficina",  badge:""},
+  {name:"Marcadores de Pizarrón (x6)",      price:4.75, emoji:"🎨", cat:"arte",     badge:"Nuevo", btype:"new"},
+  {name:"Set Pinturas Temperas (x12)",      price:6.30, emoji:"🖌️", cat:"arte",     badge:""},
+  {name:"Archivador A4 Azul",               price:3.99, emoji:"📘", cat:"archivos", badge:""},
+  {name:"Carpeta Manila (x10)",             price:3.20, emoji:"🗂️", cat:"archivos", badge:""},
+  {name:"Resma Papel A4 500 hojas",         price:6.50, emoji:"📄", cat:"papel",    badge:""},
+  {name:"Resaltadores Set (x5 colores)",    price:2.99, emoji:"🔆", cat:"papel",    badge:"Oferta"},
+];
+
+const utilesList = [
+  "Cuaderno universitario","Esfero azul","Esfero rojo","Lápiz HB",
+  "Borrador blanco","Sacapuntas","Regla 30 cm","Tijeras",
+  "Pegamento en barra","Marcadores de colores","Carpeta con ganchos",
+  "Hojas de papel bond","Resaltador amarillo","Corrector líquido",
+  "Compás","Transportador","Calculadora básica","Agenda escolar",
+];
+
+let cart = 0;
+let activeFilter = null;
+
+function renderCategories(){
+  document.getElementById('catGrid').innerHTML = categories.map(c=>`
+    <div class="cat-card" id="cat-${c.id}" onclick="filterByCategory('${c.id}','${c.label}')">
+      <div class="cat-icon">${c.icon}</div>
+      <p>${c.label}</p>
+    </div>
+  `).join('');
+}
+
+function filterByCategory(id, label){
+  if(id === 'utiles'){
+    document.getElementById('lista-utiles').scrollIntoView({behavior:'smooth'});
+    return;
+  }
+  activeFilter = id;
+  document.querySelectorAll('.cat-card').forEach(c=>c.classList.remove('active'));
+  document.getElementById('cat-'+id).classList.add('active');
+  document.getElementById('filterLabel').textContent = label;
+  document.getElementById('filterBar').style.display='flex';
+  renderProducts();
+  document.getElementById('productos').scrollIntoView({behavior:'smooth'});
+}
+
+function clearFilter(){
+  activeFilter = null;
+  document.querySelectorAll('.cat-card').forEach(c=>c.classList.remove('active'));
+  document.getElementById('filterBar').style.display='none';
+  renderProducts();
+}
+
+function renderProducts(){
+  const list = activeFilter ? products.filter(p=>p.cat===activeFilter) : products;
+  document.getElementById('productGrid').innerHTML = list.map(p=>`
+    <div class="product-card">
+      <div class="product-img">${p.emoji}</div>
+      <div class="product-info">
+        <div class="product-name">${p.name}${p.badge?`<span class="badge ${p.btype==='new'?'badge-new':''}">${p.badge}</span>`:''}</div>
+        <div class="product-price">$${p.price.toFixed(2)}</div>
+        <button class="add-btn" onclick="addToCart()">
+          <i class="ti ti-shopping-cart-plus"></i> Agregar al carrito
+        </button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderUtiles(){
+  document.getElementById('utilesList').innerHTML = utilesList.map((u,i)=>`
+    <div class="utiles-item" id="ui-${i}">
+      <input type="checkbox" id="uc-${i}" onchange="toggleUtil(${i})"/>
+      <label for="uc-${i}">${u}</label>
+    </div>
+  `).join('');
+  updateProgress();
+}
+
+function toggleUtil(i){
+  const item = document.getElementById('ui-'+i);
+  const cb = document.getElementById('uc-'+i);
+  item.classList.toggle('checked', cb.checked);
+  updateProgress();
+}
+
+function updateProgress(){
+  const total = utilesList.length;
+  const checked = document.querySelectorAll('#utilesList input:checked').length;
+  document.getElementById('utilesText').textContent = `${checked} de ${total} útiles listos`;
+  document.getElementById('progressFill').style.width = Math.round(checked/total*100)+'%';
+}
+
+function resetUtiles(){
+  document.querySelectorAll('#utilesList input').forEach(cb=>cb.checked=false);
+  document.querySelectorAll('.utiles-item').forEach(el=>el.classList.remove('checked'));
+  updateProgress();
+}
+
+function addToCart(){
+  cart++;
+  document.getElementById('cartCount').textContent = cart;
+  const t = document.getElementById('toast');
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2200);
+}
+
+renderCategories();
+renderProducts();
+renderUtiles();
+</script>
+</body>
+</html>
