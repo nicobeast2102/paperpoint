@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>PaperPoint</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Segoe UI',sans-serif;background:#f5f7fa;color:#1a1a2e;}
+nav{background:#1a3a8f;color:#fff;padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:60px;position:sticky;top:0;z-index:100;}
+.logo{font-size:1.4rem;font-weight:700;}.logo span{color:#ffd700;}
+.nav-links{display:flex;gap:1.2rem;font-size:.88rem;}
+.nav-links a{color:#fff;opacity:.85;text-decoration:none;}
+.cart-btn{background:#ffd700;color:#1a1a2e;border:none;padding:.45rem 1rem;border-radius:20px;font-weight:700;cursor:pointer;font-size:.85rem;position:relative;}
+.cart-badge{position:absolute;top:-7px;right:-7px;background:#e11d48;color:#fff;font-size:.7rem;font-weight:700;width:18px;height:18px;border-radius:50%;display:none;align-items:center;justify-content:center;}
+.hero{background:linear-gradient(135deg,#1a3a8f,#2563eb,#1a3a8f);color:#fff;padding:4rem 2rem;text-align:center;}
+.hero h1{font-size:2.2rem;font-weight:700;margin-bottom:.75rem;}
+.hero h1 span{color:#ffd700;}
+.hero p{font-size:1rem;opacity:.9;margin-bottom:2rem;}
+.hero-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;}
+.btn-y{background:#ffd700;color:#1a1a2e;padding:.7rem 1.8rem;border-radius:25px;font-weight:700;font-size:.9rem;cursor:pointer;border:none;}
+.btn-w{background:transparent;color:#fff;padding:.7rem 1.8rem;border-radius:25px;font-weight:600;font-size:.9rem;cursor:pointer;border:2px solid rgba(255,255,255,.6);}
+.sec{padding:3rem 2rem;max-width:1100px;margin:0 auto;}
+.sec-t{font-size:1.4rem;font-weight:700;margin-bottom:1.5rem;}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:1rem;}
+.cat{background:#fff;border-radius:14px;padding:1.25rem 1rem;text-align:center;cursor:pointer;border:2px solid transparent;box-shadow:0 2px 8px rgba(0,0,0,.06);}
+.cat:hover,.cat.active{border-color:#2563eb;transform:translateY(-2px);}
+.cat.active{background:#eef3ff;}
+.cat-ic{font-size:2rem;margin-bottom:.5rem;}
+.cat p{font-size:.82rem;font-weight:600;color:#444;}
+.feat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(195px,1fr));gap:1.25rem;}
+.feat-card{background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.07);}
+.feat-img{height:120px;display:flex;align-items:center;justify-content:center;font-size:3rem;background:#e8eef8;}
+.feat-info{padding:1rem;}
+.feat-name{font-weight:600;font-size:.85rem;margin-bottom:.3rem;line-height:1.4;}
+.feat-sub{font-size:.75rem;color:#666;margin-bottom:.75rem;}
+.add-btn{width:100%;background:#1a3a8f;color:#fff;border:none;padding:.5rem;border-radius:8px;font-size:.82rem;font-weight:600;cursor:pointer;}
+.add-btn:hover{background:#2563eb;}
+.s-bar{display:flex;gap:.75rem;margin-bottom:1.25rem;}
+.s-bar input{flex:1;padding:.55rem 1rem;border:1.5px solid #d1d5db;border-radius:10px;font-size:.9rem;outline:none;}
+.s-bar input:focus{border-color:#2563eb;}
+.f-bar{display:none;align-items:center;gap:.75rem;margin-bottom:1rem;}
+.ptable{width:100%;border-collapse:collapse;background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.07);}
+.ptable th{background:#1a3a8f;color:#fff;padding:.7rem 1rem;text-align:left;font-size:.85rem;}
+.ptable td{padding:.6rem 1rem;font-size:.85rem;border-bottom:1px solid #f0f0f0;}
+.ptable tr:last-child td{border-bottom:none;}
+.ptable tr:hover td{background:#f5f8ff;}
+.pn{color:#999;font-size:.8rem;}.pc{color:#555;font-size:.8rem;}
+.p-cnt{background:#e8eef8;color:#1a3a8f;font-size:.78rem;font-weight:600;padding:3px 8px;border-radius:10px;margin-left:8px;}
+.no-r{text-align:center;padding:2rem;color:#888;display:none;}
+.s-btn{background:#1a3a8f;color:#fff;border:none;padding:.3rem .8rem;border-radius:6px;font-size:.78rem;cursor:pointer;}
+.combo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(175px,1fr));gap:1rem;margin-bottom:2rem;}
+.combo{background:#fff;border-radius:12px;padding:1rem;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.07);border:2px solid transparent;}
+.combo:hover{border-color:#2563eb;}
+.cc-ic{font-size:1.8rem;margin-bottom:.4rem;}
+.cc-n{font-size:.8rem;font-weight:600;line-height:1.3;margin-bottom:.6rem;}
+.v-btn{background:#1a3a8f;color:#fff;border:none;padding:.35rem .85rem;border-radius:8px;font-size:.78rem;font-weight:600;cursor:pointer;}
+.u-sec{background:#fff;border-radius:16px;box-shadow:0 2px 12px rgba(0,0,0,.08);padding:2rem;}
+.u-sec h2{font-size:1.1rem;font-weight:700;margin-bottom:1rem;color:#1a3a8f;}
+.u-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:.6rem;margin-bottom:1rem;}
+.u-item{display:flex;align-items:center;gap:8px;font-size:.88rem;padding:.5rem .75rem;background:#f0f4ff;border-radius:8px;}
+.u-item input{accent-color:#1a3a8f;width:16px;height:16px;cursor:pointer;flex-shrink:0;}
+.u-item label{cursor:pointer;}
+.u-item.chk label{text-decoration:line-through;color:#999;}
+.u-acts{margin-top:1rem;display:flex;gap:.75rem;flex-wrap:wrap;}
+.u-acts button{padding:.45rem 1.1rem;border-radius:20px;font-size:.85rem;font-weight:600;cursor:pointer;border:none;}
+.b-rst{background:#e5e7eb;color:#333;}.b-prt{background:#1a3a8f;color:#fff;}
+.prog-bar{height:6px;background:#dde4f5;border-radius:10px;margin-top:.4rem;overflow:hidden;}
+.prog-fill{height:100%;background:#2563eb;border-radius:10px;transition:width .3s;}
+.store{background:#1a3a8f;color:#fff;padding:3rem 2rem;}
+.store-in{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:2rem;}
+.ib h3{font-size:1.1rem;font-weight:700;margin-bottom:.75rem;color:#ffd700;}
+.ib p,.ib li{font-size:.9rem;opacity:.88;line-height:1.8;}
+.ib ul{list-style:none;padding:0;}
+.ib li{display:flex;align-items:center;gap:8px;}
+footer{background:#111;color:#888;text-align:center;padding:1.25rem;font-size:.82rem;}
+.ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:9000;align-items:center;justify-content:center;padding:1rem;}
+.ov.open{display:flex;}
+.mod{background:#fff;border-radius:16px;width:100%;max-width:680px;max-height:90vh;display:flex;flex-direction:column;overflow:hidden;}
+.mod-h{background:#1a3a8f;color:#fff;padding:1rem 1.5rem;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+.mod-h h2{font-size:1rem;font-weight:700;}
+.mod-cl{background:none;border:none;color:#fff;font-size:1.5rem;cursor:pointer;}
+.mod-b{overflow-y:auto;padding:1.25rem 1.5rem;flex:1;}
+.mod-f{padding:1rem 1.5rem;border-top:1px solid #eee;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;flex-wrap:wrap;gap:.75rem;}
+.btn-cm{background:#ffd700;color:#1a1a2e;border:none;padding:.55rem 1.3rem;border-radius:20px;font-weight:700;font-size:.88rem;cursor:pointer;}
+.mi{display:flex;align-items:center;gap:10px;padding:.55rem .5rem;border-bottom:1px solid #f0f0f0;font-size:.88rem;}
+.mi:last-child{border-bottom:none;}
+.mi input{accent-color:#1a3a8f;width:16px;height:16px;flex-shrink:0;cursor:pointer;}
+.mi label{flex:1;cursor:pointer;}
+.mi.desel label{text-decoration:line-through;color:#bbb;}
+.ci{display:flex;align-items:center;gap:10px;padding:.75rem 0;border-bottom:1px solid #f0f0f0;}
+.ci:last-child{border-bottom:none;}
+.ci-em{font-size:1.5rem;flex-shrink:0;}
+.ci-inf{flex:1;}
+.ci-nm{font-weight:600;font-size:.88rem;}
+.ci-pr{color:#2563eb;font-size:.82rem;font-weight:700;}
+.ci-qty{display:flex;align-items:center;gap:6px;}
+.qb{background:#e8eef8;border:none;width:26px;height:26px;border-radius:6px;font-size:1rem;cursor:pointer;font-weight:700;color:#1a3a8f;}
+.qn{font-weight:700;min-width:20px;text-align:center;}
+.db{background:none;border:none;cursor:pointer;font-size:1.2rem;color:#e11d48;}
+.c-empty{text-align:center;color:#888;padding:2rem;}
+.c-sub{display:flex;justify-content:space-between;align-items:center;padding:.75rem 0;border-top:2px solid #1a3a8f;margin-top:.5rem;font-weight:700;}
+.c-sub span{color:#2563eb;font-size:1.1rem;}
+.btn-co{width:100%;background:#ffd700;color:#1a1a2e;border:none;padding:.75rem;border-radius:10px;font-weight:700;font-size:.95rem;cursor:pointer;margin-top:.75rem;}
+.page{display:none;}.page.active{display:block;}
+.co-wrap{max-width:700px;margin:2rem auto;padding:0 1.5rem 3rem;}
+.co-wrap h1{font-size:1.5rem;font-weight:700;margin-bottom:.5rem;color:#1a3a8f;}
+.fc{background:#fff;border-radius:14px;padding:1.5rem;box-shadow:0 2px 10px rgba(0,0,0,.07);margin-bottom:1.5rem;}
+.fc h2{font-size:1rem;font-weight:700;margin-bottom:1.2rem;display:flex;align-items:center;gap:8px;}
+.fc.dis{opacity:.4;pointer-events:none;}
+.fg{margin-bottom:1rem;}
+.fg label{display:block;font-size:.85rem;font-weight:600;margin-bottom:.4rem;color:#333;}
+.fg input{width:100%;padding:.55rem .9rem;border:1.5px solid #d1d5db;border-radius:8px;font-size:.9rem;outline:none;}
+.fg input:focus{border-color:#2563eb;}
+.fg input.err{border-color:#e11d48;}
+.em{color:#e11d48;font-size:.78rem;margin-top:.3rem;}
+.btn-nx{background:#1a3a8f;color:#fff;border:none;padding:.65rem 1.5rem;border-radius:10px;font-weight:700;font-size:.9rem;cursor:pointer;margin-top:.5rem;}
+.po{display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:1.2rem;}
+.po-op{flex:1;min-width:130px;border:2px solid #d1d5db;border-radius:10px;padding:1rem;text-align:center;cursor:pointer;}
+.po-op.sel{border-color:#1a3a8f;background:#eef3ff;}
+.po-ic{font-size:1.8rem;margin-bottom:.4rem;}
+.po-op p{font-size:.85rem;font-weight:600;}
+.bank{background:#f0f4ff;border-radius:10px;padding:1rem;font-size:.88rem;line-height:1.9;margin-top:.75rem;}
+.bank strong{color:#1a3a8f;}
+.pp-btn{display:inline-flex;align-items:center;gap:8px;background:#00c06b;color:#fff;padding:.65rem 1.4rem;border-radius:10px;font-weight:700;font-size:.9rem;cursor:pointer;border:none;margin-top:.75rem;}
+.up-ar{border:2px dashed #c7d2fe;border-radius:10px;padding:1.5rem;text-align:center;cursor:pointer;position:relative;}
+.up-ar:hover{background:#f0f4ff;}
+.up-ar input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
+.up-ic{font-size:2rem;margin-bottom:.5rem;}
+.up-ar p{font-size:.85rem;color:#666;}
+.up-pr{margin-top:.75rem;font-size:.85rem;color:#22c55e;font-weight:600;}
+.tb{background:#f0f4ff;border-radius:10px;padding:1rem 1.25rem;margin-bottom:1rem;}
+.tbr{display:flex;justify-content:space-between;padding:.3rem 0;font-size:.9rem;}
+.tbt{font-weight:700;font-size:1rem;border-top:1px solid #c7d2fe;margin-top:.5rem;padding-top:.5rem;}
+.tbt span{color:#2563eb;}
+.si{display:flex;gap:.5rem;align-items:center;margin-bottom:1.5rem;flex-wrap:wrap;}
+.st{display:flex;align-items:center;gap:.4rem;font-size:.82rem;color:#aaa;}
+.st.done{color:#22c55e;}.st.act{color:#1a3a8f;font-weight:700;}
+.st-d{width:22px;height:22px;border-radius:50%;background:#e5e7eb;display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700;}
+.st.done .st-d{background:#22c55e;color:#fff;}
+.st.act .st-d{background:#1a3a8f;color:#fff;}
+.st-l{flex:1;height:2px;background:#e5e7eb;min-width:20px;}
+.eo{display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:.75rem;}
+.eo-op{flex:1;min-width:140px;border:2px solid #d1d5db;border-radius:10px;padding:1rem;text-align:center;cursor:pointer;background:#fff;}
+.eo-op.sel{border-color:#1a3a8f;background:#eef3ff;}
+.ei{display:none;border-radius:10px;padding:1rem;font-size:.88rem;line-height:1.8;margin-top:.5rem;}
+.re-wrap{max-width:700px;margin:2rem auto;padding:0 1.5rem 3rem;}
+.re-wrap h1{font-size:1.5rem;font-weight:700;color:#1a3a8f;text-align:center;}
+.chk-c{width:64px;height:64px;background:#22c55e;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:2rem;color:#fff;margin:1rem auto 1.5rem;}
+.rc{background:#fff;border-radius:14px;padding:1.5rem;box-shadow:0 2px 10px rgba(0,0,0,.07);margin-bottom:1.25rem;}
+.rc h2{font-size:1rem;font-weight:700;margin-bottom:1rem;color:#1a3a8f;}
+.rr{display:flex;justify-content:space-between;padding:.35rem 0;border-bottom:1px solid #f5f5f5;font-size:.88rem;}
+.rr:last-child{border-bottom:none;}
+.rr .rl{color:#666;}.rr .rv{font-weight:600;}
+.rp{display:flex;justify-content:space-between;padding:.4rem 0;border-bottom:1px solid #f5f5f5;font-size:.88rem;}
+.rp:last-child{border-bottom:none;}
+.re-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-top:1.5rem;}
+.re-btns button{padding:.7rem 1.4rem;border-radius:10px;font-weight:700;cursor:pointer;border:none;font-size:.9rem;}
+.toast{position:fixed;bottom:1.5rem;right:1.5rem;background:#22c55e;color:#fff;padding:.7rem 1.2rem;border-radius:10px;font-weight:600;font-size:.9rem;opacity:0;pointer-events:none;transition:opacity .3s;z-index:9999;}
+.toast.show{opacity:1;}
+</style>
+</head>
+<body>
+
+<!-- MODALES -->
+<div class="ov" id="cartMod">
+  <div class="mod" style="max-width:520px;">
+    <div class="mod-h"><h2>Mi Carrito</h2><button class="mod-cl" onclick="closeCart()">x</button></div>
+    <div class="mod-b" id="cartB"></div>
+    <div class="mod-f" style="flex-direction:column;align-items:stretch;"><div id="cartF"></div></div>
+  </div>
+</div>
+
+<div class="ov" id="uMod">
+  <div class="mod">
+    <div class="mod-h"><h2 id="uModT">Lista de Utiles</h2><button class="mod-cl" onclick="closeU()">x</button></div>
+    <div class="mod-b" id="uModB"></div>
+    <div class="mod-f">
+      <div><div style="font-size:1rem;font-weight:700;">Seleccionados: <span id="uModC" style="color:#2563eb;">0</span></div><div style="font-size:.75rem;color:#999;font-style:italic;">Precios proximos</div></div>
+      <button class="btn-cm" onclick="addUCart()">Agregar al carrito</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<!-- PAGINA PRINCIPAL -->
+<div id="pgMain" class="page active">
+<nav>
+  <div class="logo">Paper<span>Point</span></div>
+  <div class="nav-links">
+    <a href="#cats">Categorias</a><a href="#dest">Destacados</a>
+    <a href="#prods">Productos</a><a href="#utiles">Lista Utiles</a><a href="#tienda">Tienda</a>
+  </div>
+  <button class="cart-btn" onclick="openCart()">Carrito <span class="cart-badge" id="badge">0</span></button>
+</nav>
+
+<div class="hero">
+  <h1>Todo para tu <span>Oficina y Escuela</span></h1>
+  <p>Utiles de calidad a los mejores precios</p>
+  <div class="hero-btns">
+    <button class="btn-y" onclick="go('dest')">Ver Productos</button>
+    <button class="btn-w" onclick="go('tienda')">Encuentranos</button>
+  </div>
+</div>
+
+<div class="sec" id="cats"><div class="sec-t">Comprar por Categoria</div><div class="cats" id="catG"></div></div>
+<div class="sec" id="dest"><div class="sec-t">Combos de Libros UELAC</div><div class="feat-grid" id="featG"></div></div>
+<div class="sec" id="prods">
+  <div class="sec-t">Todos los Productos <span class="p-cnt" id="pCnt"></span></div>
+  <div class="f-bar" id="fBar"><span style="font-size:.9rem;color:#555;">Filtrando: <strong id="fLbl"></strong></span><button onclick="clrF()" style="background:none;border:1px solid #aaa;padding:.3rem .8rem;border-radius:20px;font-size:.82rem;cursor:pointer;">x Ver todos</button></div>
+  <div class="s-bar"><input type="text" id="sInp" placeholder="Buscar producto..." oninput="rndP()"/></div>
+  <table class="ptable"><thead><tr><th>#</th><th>Articulo</th><th>Caracteristicas</th><th>Agregar</th></tr></thead><tbody id="pBody"></tbody></table>
+  <div class="no-r" id="noR">No se encontraron productos.</div>
+</div>
+<div class="sec" id="utiles">
+  <div class="sec-t">Lista de Utiles Escolares</div>
+  <div class="combo-grid" id="cGrid"></div>
+  <div class="u-sec">
+    <h2>Marca lo que ya tienes</h2>
+    <div class="u-grid" id="uList"></div>
+    <div style="margin-top:.75rem;font-size:.85rem;color:#555;"><span id="uTxt">0 de 0 utiles listos</span><div class="prog-bar"><div class="prog-fill" id="pFill" style="width:0%"></div></div></div>
+    <div class="u-acts"><button class="b-rst" onclick="rstU()">Reiniciar</button><button class="b-prt" onclick="window.print()">Imprimir</button></div>
+  </div>
+</div>
+<div class="store" id="tienda">
+  <div class="store-in">
+    <div class="ib"><h3>Visitanos</h3><p>Av. de las Americas frente a Misicata<br>PAPELSONIC - Quito</p><br><p>+593 2 123-4567</p><p>info@paperpoint.ec</p></div>
+    <div class="ib"><h3>Horario</h3><ul><li>Lun-Vie: 8am-7pm</li><li>Sabado: 9am-5pm</li><li>Domingo: Cerrado</li></ul></div>
+    <div class="ib"><h3>Por que PaperPoint</h3><ul><li>+500 productos en stock</li><li>Precios al por mayor</li><li>Pedidos para colegios</li><li>Atencion personalizada</li></ul></div>
+  </div>
+</div>
+<footer>2026 PaperPoint - Quito, Ecuador</footer>
+</div>
+
+<!-- CHECKOUT -->
+<div id="pgCO" class="page">
+<nav style="background:#1a3a8f;color:#fff;padding:0 2rem;display:flex;align-items:center;height:60px;gap:1rem;">
+  <button onclick="showPg('pgMain')" style="background:none;border:none;color:#fff;cursor:pointer;font-size:1.2rem;">Atras</button>
+  <div class="logo" style="font-size:1.2rem;">Paper<span style="color:#ffd700;">Point</span></div>
+</nav>
+<div class="co-wrap">
+  <h1>Finalizar Compra</h1>
+  <p style="font-size:.9rem;color:#666;margin-bottom:2rem;">Completa todos los pasos</p>
+  <div class="si" id="stInd"></div>
+  <div class="fc"><h2>Resumen del pedido</h2><div id="coIt"></div><div class="tb" id="coTot"></div></div>
+  <div class="fc" id="fcFact">
+    <h2><span style="background:#1a3a8f;color:#fff;width:24px;height:24px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:.8rem;">1</span> Datos de Facturacion</h2>
+    <div class="fg"><label>Nombres y Apellidos *</label><input type="text" id="fNo" placeholder="Juan Perez"/><div class="em" id="eNo"></div></div>
+    <div class="fg"><label>Cedula o RUC *</label><input type="text" id="fCe" placeholder="1712345678"/><div class="em" id="eCe"></div></div>
+    <div class="fg"><label>Telefono *</label><input type="text" id="fTe" placeholder="0991234567"/><div class="em" id="eTe"></div></div>
+    <div class="fg"><label>Direccion *</label><input type="text" id="fDi" placeholder="Av. Amazonas, Quito"/><div class="em" id="eDi"></div></div>
+    <div class="fg"><label>Correo Electronico *</label><input type="email" id="fEm" placeholder="correo@ejemplo.com"/><div class="em" id="eEm"></div></div>
+    <button class="btn-nx" onclick="valFact()">Continuar al pago</button>
+  </div>
+  <div class="fc dis" id="fcPago">
+    <h2><span style="background:#1a3a8f;color:#fff;width:24px;height:24px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:.8rem;">2</span> Metodo de Pago</h2>
+    <div id="totPago" style="font-size:.95rem;font-weight:600;margin-bottom:1rem;"></div>
+    <div class="po">
+      <div class="po-op" id="opTr" onclick="selPago('transferencia')"><div class="po-ic">&#127970;</div><p>Transferencia</p></div>
+      <div class="po-op" id="opTa" onclick="selPago('tarjeta')"><div class="po-ic">&#128179;</div><p>Tarjeta de Credito</p></div>
+    </div>
+    <div id="inTr" style="display:none;">
+      <div class="bank"><strong>Datos bancarios:</strong><br>Banco: <strong>Coop JEP</strong><br>Cuenta: <strong>XXXXXXXX</strong><br>Beneficiario: <strong>Juan Perez</strong><br>Cedula: <strong>XXXXX</strong></div>
+      <button class="btn-nx" style="margin-top:1rem;" onclick="confPago()">Continuar</button>
+    </div>
+    <div id="inTa" style="display:none;">
+      <p style="font-size:.88rem;color:#555;margin-bottom:.75rem;">Pago seguro con PayPhone</p>
+      <button class="pp-btn" onclick="window.open('https://pay.payphonetodoesposible.com','_blank')">Pagar con PayPhone</button><br>
+      <button class="btn-nx" style="margin-top:1rem;" onclick="confPago()">Ya pague, continuar</button>
+    </div>
+  </div>
+  <div class="fc dis" id="fcComp">
+    <h2><span style="background:#1a3a8f;color:#fff;width:24px;height:24px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:.8rem;">3</span> Comprobante y Entrega</h2>
+    <p style="font-size:.88rem;color:#555;margin-bottom:1rem;">Sube tu comprobante de pago (JPG o PDF)</p>
+    <div class="up-ar"><input type="file" accept=".jpg,.jpeg,.pdf" id="fInp" onchange="archSel()"/><div class="up-ic">&#128206;</div><p>Toca aqui para subir</p></div>
+    <div class="up-pr" id="upPrev" style="display:none;"></div>
+    <p style="font-size:.88rem;font-weight:600;color:#333;margin:1.25rem 0 .75rem;">Metodo de Entrega *</p>
+    <div class="eo">
+      <div class="eo-op" id="opLoc" onclick="selEnt('local')"><div style="font-size:1.6rem;margin-bottom:.4rem;">&#127978;</div><p style="font-size:.85rem;font-weight:600;">Retiro en Local</p></div>
+      <div class="eo-op" id="opDom" onclick="selEnt('domicilio')"><div style="font-size:1.6rem;margin-bottom:.4rem;">&#128666;</div><p style="font-size:.85rem;font-weight:600;">Entrega a Domicilio</p></div>
+    </div>
+    <div class="ei" id="eiLoc" style="background:#f0f4ff;">Direccion: Av. de las Americas frente a Misicata - PAPELSONIC. Entrega en 2 dias laborables.</div>
+    <div class="ei" id="eiDom" style="background:#fff8e1;">Tarifa adicional a calcular. Entrega en 2 dias laborables.</div>
+    <button class="btn-nx" id="btnPed" style="margin-top:1rem;width:100%;padding:.75rem;background:#ccc;color:#666;" disabled onclick="hacerPedido()">Realizar Pedido</button>
+  </div>
+</div>
+</div>
+
+<!-- RESUMEN -->
+<div id="pgRes" class="page">
+<nav style="background:#1a3a8f;color:#fff;padding:0 2rem;display:flex;align-items:center;height:60px;">
+  <div class="logo" style="font-size:1.2rem;">Paper<span style="color:#ffd700;">Point</span></div>
+</nav>
+<div class="re-wrap">
+  <div class="chk-c">✓</div>
+  <h1>Pedido Enviado!</h1>
+  <p style="text-align:center;color:#666;margin-bottom:1.5rem;">Tu orden fue registrada exitosamente.</p>
+  <div class="rc"><h2>Datos del Comprador</h2><div id="reDat"></div></div>
+  <div class="rc"><h2>Productos</h2><div id="reProd"></div><div class="tb" style="margin-top:1rem;" id="reTot"></div></div>
+  <div class="rc"><h2>Pago y Entrega</h2><div id="rePago"></div></div>
+  <div class="re-btns">
+    <button onclick="window.print()" style="background:#1a3a8f;color:#fff;">Imprimir</button>
+    <button onclick="guardar()" style="background:#22c55e;color:#fff;">Guardar</button>
+    <button onclick="volverI()" style="background:#e5e7eb;color:#333;">Inicio</button>
+  </div>
+</div>
+</div>
+
+<script>
+var CATS=[
+  {id:"lapices",lb:"Esferos y Lapices",ic:"pencil"},
+  {id:"libros",lb:"Libros",ic:"book"},
+  {id:"cuadernos",lb:"Cuadernos",ic:"notebook"},
+  {id:"oficina",lb:"Utiles de Oficina",ic:"clip"},
+  {id:"arte",lb:"Arte y Dibujo",ic:"art"},
+  {id:"archivos",lb:"Archivadores",ic:"folder"},
+  {id:"papel",lb:"Papel e Impresion",ic:"print"},
+  {id:"utiles",lb:"Lista de Utiles",ic:"list"}
+];
+var ICONS={pencil:"✏️",book:"📖",notebook:"📓",clip:"📎",art:"🎨",folder:"🗂️",print:"🖨️",list:"📋"};
+
+var COMBOS=[
+  {n:"Inicial 2",e:"🌱",its:["Borrador blanco","Crayones 12 colores","Cuaderno parvulario lineas","Goma barra pequena","Lapiz HB","Marcadores punta gruesa","Plastilina 12 colores","Tijera punta redonda"]},
+  {n:"Primero Basica",e:"🎒",its:["Borrador blanco","Cuaderno cosido 4 lineas","Goma barra pequena","Lapiz HB","Marcadores punta gruesa","Plastilina 12 colores","Tijera punta redonda","Crayones 12 colores"]},
+  {n:"Segundo Basica",e:"📗",its:["Borrador blanco","Cuaderno cosido 4 lineas","Cuaderno cosido cuadros","Goma barra pequena","Lapiz HB","Marcadores punta gruesa","Regla 30 cm","Tijera punta redonda"]},
+  {n:"Tercero Basica",e:"📘",its:["Borrador blanco","Cuaderno cosido 4 lineas","Cuaderno cosido cuadros","Goma barra pequena","Lapiz HB","Regla 30 cm","Sacapuntas","Tijera punta redonda"]},
+  {n:"Cuarto Basica",e:"📙",its:["Borrador blanco","Cuaderno cosido cuadros","Cuaderno espiral dibujo","Goma barra pequena","Lapiz HB","Regla 30 cm","Sacapuntas","Compas"]},
+  {n:"Quinto Basica",e:"📕",its:["Borrador blanco","Cuaderno universitario cuadros","Cuaderno espiral dibujo","Lapiz HB","Regla 30 cm","Sacapuntas","Compas","Juego geometrico"]},
+  {n:"Sexto Basica",e:"📓",its:["Borrador blanco","Cuaderno universitario cuadros","Cuaderno espiral dibujo","Regla 30 cm","Sacapuntas","Compas","Juego geometrico","Calculadora cientifica"]},
+  {n:"Septimo Basica",e:"📔",its:["Borrador blanco","Cuaderno universitario cuadros","Cuaderno espiral dibujo","Regla 30 cm","Sacapuntas","Compas","Juego geometrico","Calculadora cientifica"]},
+  {n:"Octavo Basica",e:"📒",its:["Borrador blanco","Cuaderno universitario 100h","Cuaderno universitario 200h","Regla 30 cm","Sacapuntas recolector","Compas","Juego geometrico","Calculadora cientifica"]},
+  {n:"Noveno Basica",e:"📃",its:["Borrador blanco","Cuaderno universitario 100h","Cuaderno universitario 200h","Sacapuntas recolector","Compas","Juego geometrico","Calculadora cientifica","Rapidografo 0.5 mm"]},
+  {n:"Decimo Basica",e:"📋",its:["Borrador blanco","Cuaderno universitario 100h","Cuaderno universitario 200h","Sacapuntas recolector","Compas","Juego geometrico","Calculadora cientifica","Rapidografo 0.7 mm"]},
+  {n:"1ro Bachillerato Ciencias",e:"🔬",its:["Borrador blanco","Cuaderno universitario 200h","Calculadora cientifica","Compas","Juego geometrico","Rapidografo 0.5 mm","Mandil blanco M","Tabla periodica"]},
+  {n:"1ro Bachillerato Tecnico",e:"🔧",its:["Borrador blanco","Cuaderno universitario 200h","Calculadora cientifica","Compas","Juego geometrico","Rapidografo 0.5 mm","Mandil blanco M","Memoria USB"]},
+  {n:"2do Bachillerato Ciencias",e:"⚗️",its:["Borrador blanco","Cuaderno universitario 200h","Calculadora cientifica","Compas","Juego geometrico","Rapidografo 0.7 mm","Mandil blanco M","Tabla periodica"]},
+  {n:"2do Bachillerato Tecnico",e:"⚙️",its:["Borrador blanco","Cuaderno universitario 200h","Calculadora cientifica","Compas","Juego geometrico","Rapidografo 0.7 mm","Mandil blanco M","Memoria USB"]},
+  {n:"3ro Bachillerato Ciencias",e:"🎓",its:["Borrador blanco","Cuaderno universitario 200h","Calculadora cientifica","Compas","Juego geometrico","Rapidografo 0.7 mm","Mandil blanco L","Tabla periodica"]},
+  {n:"3ro Bachillerato Tecnico",e:"🏆",its:["Borrador blanco","Cuaderno universitario 200h","Calculadora cientifica","Compas","Juego geometrico","Rapidografo 0.7 mm","Mandil blanco L","Memoria USB"]}
+];
+
+var PRODS=[
+  {n:"Archivador grande oficio",c:"Tamano oficio",cat:"archivos"},
+  {n:"Block notas adhesivas",c:"300 hojas",cat:"oficina"},
+  {n:"Boligrafo azul borrable",c:"Punta fina",cat:"lapices"},
+  {n:"Boligrafo azul punta fina",c:"Punta fina",cat:"lapices"},
+  {n:"Boligrafo negro punta fina",c:"Punta fina",cat:"lapices"},
+  {n:"Boligrafo rojo borrable",c:"Punta fina",cat:"lapices"},
+  {n:"Boligrafo rojo punta fina",c:"Punta fina",cat:"lapices"},
+  {n:"Borrador blanco",c:"PZ-20",cat:"oficina"},
+  {n:"Borrador negro",c:"Para lapiz",cat:"oficina"},
+  {n:"Caja minas 0.5 mm",c:"0.5 mm",cat:"lapices"},
+  {n:"Caja minas 0.7 mm",c:"0.7 mm",cat:"lapices"},
+  {n:"Caja pinturas 12 colores grande",c:"12 colores grande",cat:"arte"},
+  {n:"Caja pinturas 12 colores jumbo",c:"12 colores jumbo",cat:"arte"},
+  {n:"Caja pinturas 12 colores pequena",c:"12 colores pequena",cat:"arte"},
+  {n:"Caja pinturas acrilicas",c:"5 colores",cat:"arte"},
+  {n:"Caja temperas",c:"6 colores",cat:"arte"},
+  {n:"Calculadora cientifica",c:"",cat:"oficina"},
+  {n:"Carpeta A4 plastica",c:"Tapa transparente",cat:"archivos"},
+  {n:"Carpeta A5 plastica",c:"Tamano A5",cat:"archivos"},
+  {n:"Carpeta acordeon A4",c:"Tamano A4",cat:"archivos"},
+  {n:"Carpeta sobre A4",c:"Con broche",cat:"archivos"},
+  {n:"Cartuchera de tela",c:"Tela",cat:"oficina"},
+  {n:"Cartuchera dos compartimentos",c:"2 compartimentos",cat:"oficina"},
+  {n:"Cartulinas A4 iris",c:"20 und varios colores",cat:"arte"},
+  {n:"Cartulinas A5 Bristol",c:"20 und varios colores",cat:"arte"},
+  {n:"Cinta masking",c:"Mediano grosor",cat:"oficina"},
+  {n:"Cinta metrica",c:"100 cm",cat:"oficina"},
+  {n:"Compas",c:"De precision",cat:"oficina"},
+  {n:"Crayones 12 colores",c:"Punta triangular",cat:"arte"},
+  {n:"Cuaderno A4 cosido 50h 4 lineas",c:"4 lineas",cat:"cuadernos"},
+  {n:"Cuaderno A4 cosido 100h 4 lineas",c:"4 lineas margen rojo",cat:"cuadernos"},
+  {n:"Cuaderno A4 cosido 100h cuadros",c:"Cuadros margen rojo",cat:"cuadernos"},
+  {n:"Cuaderno A4 cosido mixto 100h",c:"Cuadros y lineas",cat:"cuadernos"},
+  {n:"Cuaderno A4 espiral dibujo 60h",c:"Con margen",cat:"cuadernos"},
+  {n:"Cuaderno A4 espiral dibujo 100h",c:"Con margen",cat:"cuadernos"},
+  {n:"Cuaderno A4 espiral sin margen",c:"100 hojas",cat:"cuadernos"},
+  {n:"Cuaderno A4 parvulario cuadros",c:"Cuadro N10",cat:"cuadernos"},
+  {n:"Cuaderno A4 parvulario lineas",c:"4 lineas",cat:"cuadernos"},
+  {n:"Cuaderno A5 espiral 60h cuadros",c:"",cat:"cuadernos"},
+  {n:"Cuaderno A5 espiral 100h cuadros",c:"",cat:"cuadernos"},
+  {n:"Cuaderno A5 cosido 100h cuadros",c:"100 hojas",cat:"cuadernos"},
+  {n:"Cuaderno A5 cosido 100h 4 lineas",c:"4 lineas",cat:"cuadernos"},
+  {n:"Cuaderno cosido 60h cuadros",c:"",cat:"cuadernos"},
+  {n:"Cuaderno cosido 100h 4 lineas",c:"4 lineas",cat:"cuadernos"},
+  {n:"Cuaderno dibujo grande 60h",c:"Sin margen",cat:"cuadernos"},
+  {n:"Cuaderno espiral N5 dibujo 30h",c:"Con margen",cat:"cuadernos"},
+  {n:"Cuaderno mixto cosido A4",c:"Cuadros y lineas",cat:"cuadernos"},
+  {n:"Cuaderno universitario 60h cuadros",c:"Espiral",cat:"cuadernos"},
+  {n:"Cuaderno universitario 100h cuadros",c:"Espiral",cat:"cuadernos"},
+  {n:"Cuaderno universitario 200h cuadros",c:"",cat:"cuadernos"},
+  {n:"Cuaderno universitario 100h 2 lineas",c:"Cosido",cat:"cuadernos"},
+  {n:"Cuento no tradicional",c:"",cat:"libros"},
+  {n:"Diccionario Chicago Ingles Espanol",c:"135/3",cat:"libros"},
+  {n:"Diccionario estudiantil",c:"",cat:"libros"},
+  {n:"Esponja para pintar",c:"30 mm",cat:"arte"},
+  {n:"Fomix A4 varios colores",c:"20 und",cat:"arte"},
+  {n:"Frasco pintura dactilar",c:"250 ml",cat:"arte"},
+  {n:"Funda algodon",c:"50 g",cat:"oficina"},
+  {n:"Funda barras silicona delgadas",c:"Delgadas",cat:"oficina"},
+  {n:"Funda barras silicona finas",c:"Finas",cat:"oficina"},
+  {n:"Funda harina",c:"1 libra",cat:"oficina"},
+  {n:"Funda stickers",c:"",cat:"oficina"},
+  {n:"Geoplano",c:"15x15 cm 25 pivotes",cat:"oficina"},
+  {n:"Goma barra grande",c:"Grande",cat:"oficina"},
+  {n:"Goma barra pequena",c:"Pequena",cat:"oficina"},
+  {n:"Graduador 180 grados",c:"",cat:"oficina"},
+  {n:"Guantes de latex",c:"1 par",cat:"oficina"},
+  {n:"Guantes de nitrilo",c:"1 par",cat:"oficina"},
+  {n:"Hojas perforadas A4 cuadros",c:"50 und",cat:"papel"},
+  {n:"Hojas perforadas A4 dos lineas",c:"50 und",cat:"papel"},
+  {n:"Hojas perforadas A5 cuadros",c:"",cat:"papel"},
+  {n:"Juego de pinceles",c:"N 0-2-4-6-8-10-12",cat:"arte"},
+  {n:"Juego geometrico",c:"30 cm plastico",cat:"oficina"},
+  {n:"Lamina presidentes Ecuador",c:"Educativa",cat:"oficina"},
+  {n:"Lapiz HB",c:"2 y medio HB",cat:"lapices"},
+  {n:"Lapiz triplus jumbo",c:"Sin borrador",cat:"lapices"},
+  {n:"Libro Ana del Circo",c:"Liset Lantigua",cat:"libros"},
+  {n:"Libro Cuentos Escogidos Vol 1",c:"23 cuentos",cat:"libros"},
+  {n:"Libro El Principito",c:"Antoine de Saint Exupery",cat:"libros"},
+  {n:"Libro La sonrisa del asno",c:"Carlos Carrion",cat:"libros"},
+  {n:"Libro Diccionario Inocente",c:"Jorge Davila Vazquez",cat:"libros"},
+  {n:"Libro El fantasma de Canterville",c:"Oscar Wilde",cat:"libros"},
+  {n:"Libro La pelea",c:"Francisco Delgado Santos",cat:"libros"},
+  {n:"Libro Las dos doncellas",c:"Miguel de Cervantes",cat:"libros"},
+  {n:"Libro Los viajes de Gulliver",c:"Jonathan Swift",cat:"libros"},
+  {n:"Libro Modernismo en el Ecuador",c:"Juvenalia Clasica",cat:"libros"},
+  {n:"Libro Nos veremos pronto",c:"Modesto Ponce Maldonado",cat:"libros"},
+  {n:"Libro para colorear",c:"30 hojas",cat:"libros"},
+  {n:"Libro Porticos",c:"Luis Salvador Jaramillo",cat:"libros"},
+  {n:"Libro Teseo y el Minotauro",c:"Tod Smith",cat:"libros"},
+  {n:"Mandil laboratorio blanco L",c:"Talla L",cat:"oficina"},
+  {n:"Mandil laboratorio blanco M",c:"Talla M",cat:"oficina"},
+  {n:"Mandil laboratorio blanco S",c:"Talla S",cat:"oficina"},
+  {n:"Marcador fomix permanente",c:"Permanente",cat:"lapices"},
+  {n:"Marcador pizarra azul",c:"Azul",cat:"lapices"},
+  {n:"Marcador pizarra negro",c:"Negro",cat:"lapices"},
+  {n:"Marcador pizarra rojo",c:"Rojo",cat:"lapices"},
+  {n:"Marcadores 12 colores punta fina",c:"12 colores",cat:"arte"},
+  {n:"Marcadores 12 colores punta gruesa",c:"12 colores",cat:"arte"},
+  {n:"Masa moldeable",c:"",cat:"arte"},
+  {n:"Mascarilla",c:"1 und",cat:"oficina"},
+  {n:"Memoria USB",c:"4 GB",cat:"oficina"},
+  {n:"Microminas 0.5 mm",c:"",cat:"lapices"},
+  {n:"Microminas 0.7 mm",c:"",cat:"lapices"},
+  {n:"Ojos locos medianos",c:"Medianos",cat:"arte"},
+  {n:"Ovillo lana pequeno rojo",c:"Pequeno",cat:"arte"},
+  {n:"Paleta de colores plastico",c:"Plastico",cat:"arte"},
+  {n:"Palo chuzo gruesos",c:"10 und",cat:"arte"},
+  {n:"Pano microfibra",c:"30x30 cm",cat:"oficina"},
+  {n:"Papel crepe rojo",c:"Pliego",cat:"arte"},
+  {n:"Papel iris A4",c:"Varios colores",cat:"papel"},
+  {n:"Papelografo blanco",c:"Blanco",cat:"papel"},
+  {n:"Panitos humedos",c:"Paquete",cat:"oficina"},
+  {n:"Paquete ligas pequenas",c:"",cat:"oficina"},
+  {n:"Paquete paletas helado",c:"Varios colores",cat:"arte"},
+  {n:"Pincel cabeza plana N14",c:"",cat:"arte"},
+  {n:"Plastilina 6 colores grande",c:"6 colores",cat:"arte"},
+  {n:"Plastilina barra rojo",c:"Barra",cat:"arte"},
+  {n:"Plastilina grande 12 colores",c:"12 colores",cat:"arte"},
+  {n:"Rapidografo negro 0.5 mm",c:"0.5 mm",cat:"lapices"},
+  {n:"Rapidografo negro 0.7 mm",c:"0.7 mm",cat:"lapices"},
+  {n:"Regla 30 centimetros",c:"",cat:"oficina"},
+  {n:"Resaltador rojo",c:"Rojo",cat:"lapices"},
+  {n:"Resma papel bond A4",c:"",cat:"papel"},
+  {n:"Rompecabezas",c:"20 piezas",cat:"oficina"},
+  {n:"Sacapuntas",c:"",cat:"oficina"},
+  {n:"Sacapuntas con recolector",c:"Con recolector",cat:"oficina"},
+  {n:"Sacapuntas doble funcion",c:"Doble funcion",cat:"oficina"},
+  {n:"Tabla periodica Mendeleiev",c:"",cat:"oficina"},
+  {n:"Tablero punzar doble cara",c:"Doble cara",cat:"arte"},
+  {n:"Tijera punta redonda",c:"",cat:"oficina"},
+  {n:"Toalla escolar pequena",c:"Pequena",cat:"oficina"}
+];
+
+var UTILES=["Cuaderno universitario","Esfero azul","Esfero rojo","Lapiz HB","Borrador blanco","Sacapuntas","Regla 30 cm","Tijeras","Pegamento en barra","Marcadores de colores","Carpeta con ganchos","Hojas papel bond","Resaltador amarillo","Corrector liquido","Compas","Transportador","Calculadora basica","Agenda escolar"];
+
+var cart=[],actCat=null,uIdx=null,uChk=[];
+var mPago='',mEnt='',okFact=false,okPago=false,okComp=false,okEnt=false,cNom='';
+
+function g(id){return document.getElementById(id);}
+function go(id){document.getElementById(id).scrollIntoView({behavior:'smooth'});}
+function showPg(id){var ps=document.querySelectorAll('.page');for(var i=0;i<ps.length;i++)ps[i].classList.remove('active');g(id).classList.add('active');}
+function toast(m){var t=g('toast');t.textContent=m;t.classList.add('show');setTimeout(function(){t.classList.remove('show');},2500);}
+
+function totCart(){return cart.reduce(function(s,x){return s+x.qty*(x.p||0);},0);}
+function cntCart(){return cart.reduce(function(s,x){return s+x.qty;},0);}
+function updBadge(){var t=cntCart(),b=g('badge');b.style.display=t>0?'flex':'none';b.textContent=t;}
+
+function addCart(nm,em,pr){
+  var found=false;
+  for(var i=0;i<cart.length;i++){if(cart[i].nm===nm){cart[i].qty++;found=true;break;}}
+  if(!found)cart.push({nm:nm,em:em||'📦',qty:1,p:pr||0});
+  updBadge();toast('Agregado al carrito');
+}
+function remCart(i){cart.splice(i,1);updBadge();rndCart();}
+function chgQty(i,d){cart[i].qty+=d;if(cart[i].qty<=0)remCart(i);else{updBadge();rndCart();}}
+
+function openCart(){rndCart();g('cartMod').classList.add('open');}
+function closeCart(){g('cartMod').classList.remove('open');}
+g('cartMod').addEventListener('click',function(e){if(e.target===this)closeCart();});
+
+function rndCart(){
+  var b=g('cartB'),f=g('cartF');
+  if(!cart.length){b.innerHTML='<div class="c-empty">El carrito esta vacio</div>';f.innerHTML='';return;}
+  var h='';
+  for(var i=0;i<cart.length;i++){
+    var x=cart[i];
+    h+='<div class="ci">';
+    h+='<div class="ci-em">'+x.em+'</div>';
+    h+='<div class="ci-inf"><div class="ci-nm">'+x.nm+'</div><div class="ci-pr">'+(x.p>0?'$'+x.p.toFixed(2):'Precio proximo')+'</div></div>';
+    h+='<div class="ci-qty">';
+    h+='<button class="qb" data-i="'+i+'" data-d="-1" onclick="chgQty(+this.dataset.i,+this.dataset.d)">-</button>';
+    h+='<span class="qn">'+x.qty+'</span>';
+    h+='<button class="qb" data-i="'+i+'" data-d="1" onclick="chgQty(+this.dataset.i,+this.dataset.d)">+</button>';
+    h+='</div>';
+    h+='<button class="db" data-i="'+i+'" onclick="remCart(+this.dataset.i)">🗑️</button>';
+    h+='</div>';
+  }
+  b.innerHTML=h;
+  var tot=totCart();
+  f.innerHTML='<div class="c-sub"><span>Total ('+cntCart()+')</span><span>'+(tot>0?'$'+tot.toFixed(2):'A confirmar')+'</span></div><button class="btn-co" onclick="irCO()">Finalizar Compra</button>';
+}
+
+function irCO(){
+  if(!cart.length){toast('El carrito esta vacio');return;}
+  closeCart();
+  okFact=false;okPago=false;okComp=false;okEnt=false;mPago='';mEnt='';
+  g('fcPago').classList.add('dis');g('fcComp').classList.add('dis');
+  var btn=g('btnPed');btn.disabled=true;btn.style.background='#ccc';btn.style.color='#666';
+  g('inTr').style.display='none';g('inTa').style.display='none';
+  g('opTr').classList.remove('sel');g('opTa').classList.remove('sel');
+  g('upPrev').style.display='none';g('fInp').value='';
+  g('opLoc').classList.remove('sel');g('opDom').classList.remove('sel');
+  g('eiLoc').style.display='none';g('eiDom').style.display='none';
+  rndCoIt();updSteps(1);showPg('pgCO');window.scrollTo(0,0);
+}
+
+function rndCoIt(){
+  var h='';
+  for(var i=0;i<cart.length;i++){var x=cart[i];h+='<div class="rp"><span>'+x.nm+' x'+x.qty+'</span><span style="color:#2563eb;font-weight:600;">'+(x.p>0?'$'+(x.p*x.qty).toFixed(2):'$-')+'</span></div>';}
+  g('coIt').innerHTML=h;
+  var tot=totCart();
+  g('coTot').innerHTML='<div class="tbr"><span>Subtotal</span><span>'+(tot>0?'$'+tot.toFixed(2):'A confirmar')+'</span></div><div class="tbr tbt"><span>TOTAL</span><span>'+(tot>0?'$'+tot.toFixed(2):'A confirmar')+'</span></div>';
+  g('totPago').textContent='Total: '+(totCart()>0?'$'+totCart().toFixed(2):'A confirmar');
+}
+
+function valFact(){
+  var ok=true;
+  var cs=[
+    {id:'fNo',er:'eNo',fn:function(v){var p=v.trim().split(/\s+/).filter(function(x){return x;});return p.length<2?'Ingresa nombre y apellido':null;}},
+    {id:'fCe',er:'eCe',fn:function(v){return!/^\d{10,}$/.test(v.trim())?'Minimo 10 digitos':null;}},
+    {id:'fTe',er:'eTe',fn:function(v){return!/^\d{10,}$/.test(v.trim())?'Minimo 10 digitos':null;}},
+    {id:'fDi',er:'eDi',fn:function(v){return!v.trim()?'Ingresa tu direccion':null;}},
+    {id:'fEm',er:'eEm',fn:function(v){return!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim())?'Correo invalido':null;}}
+  ];
+  for(var i=0;i<cs.length;i++){
+    var c=cs[i],v=g(c.id).value,m=c.fn(v),e=g(c.er);
+    if(m){e.textContent=m;g(c.id).classList.add('err');ok=false;}else{e.textContent='';g(c.id).classList.remove('err');}
+  }
+  if(ok){okFact=true;g('fcPago').classList.remove('dis');updSteps(2);g('fcPago').scrollIntoView({behavior:'smooth'});toast('Datos guardados');}
+}
+
+function selPago(t){
+  mPago=t;
+  g('opTr').classList.remove('sel');g('opTa').classList.remove('sel');
+  g('inTr').style.display='none';g('inTa').style.display='none';
+  if(t==='transferencia'){g('opTr').classList.add('sel');g('inTr').style.display='block';}
+  else{g('opTa').classList.add('sel');g('inTa').style.display='block';}
+}
+
+function confPago(){
+  if(!mPago){toast('Selecciona un metodo de pago');return;}
+  okPago=true;g('fcComp').classList.remove('dis');updSteps(3);g('fcComp').scrollIntoView({behavior:'smooth'});toast('Metodo de pago seleccionado');
+}
+
+function archSel(){
+  var f=g('fInp').files[0];
+  if(f){cNom=f.name;okComp=true;g('upPrev').style.display='block';g('upPrev').textContent='Archivo: '+f.name;}
+  chkListo();
+}
+
+function selEnt(t){
+  mEnt=t;okEnt=true;
+  g('opLoc').classList.toggle('sel',t==='local');
+  g('opDom').classList.toggle('sel',t==='domicilio');
+  g('eiLoc').style.display=t==='local'?'block':'none';
+  g('eiDom').style.display=t==='domicilio'?'block':'none';
+  chkListo();
+}
+
+function chkListo(){
+  if(okComp&&okEnt){var b=g('btnPed');b.disabled=false;b.style.background='#22c55e';b.style.color='#fff';}
+}
+
+function enviarDatos(){
+  var url='https://script.google.com/macros/s/AKfycby6ba9z-82KytF_TQSF3WzLgdDnMXpTxEEUjk-qdmStBLyfUOyMOcc-uGk4jwLgDaaCiQ/exec';
+  var data={
+    nombre:g('fNo')?g('fNo').value:'',
+    cedula:g('fCe')?g('fCe').value:'',
+    telefono:g('fTe')?g('fTe').value:'',
+    direccion:g('fDi')?g('fDi').value:'',
+    email:g('fEm')?g('fEm').value:'',
+    productos:cart.map(function(x){return x.nm+' x'+x.qty;}).join(', '),
+    metodoPago:mPago==='transferencia'?'Transferencia bancaria':'Tarjeta PayPhone',
+    total:totCart()>0?'$'+totCart().toFixed(2):'A confirmar',
+    metodoEntrega:mEnt==='local'?'Retiro en local PAPELSONIC':'Entrega a domicilio'
+  };
+  fetch(url,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)}).catch(function(){});
+}
+
+function hacerPedido(){
+  if(!okFact||!okPago||!okComp||!okEnt){toast('Completa todos los pasos');return;}
+  enviarDatos();rndResumen();showPg('pgRes');window.scrollTo(0,0);
+}
+
+function rndResumen(){
+  var no=g('fNo')?g('fNo').value:'',ce=g('fCe')?g('fCe').value:'',te=g('fTe')?g('fTe').value:'',di=g('fDi')?g('fDi').value:'',em=g('fEm')?g('fEm').value:'';
+  g('reDat').innerHTML='<div class="rr"><span class="rl">Nombre</span><span class="rv">'+no+'</span></div><div class="rr"><span class="rl">Cedula/RUC</span><span class="rv">'+ce+'</span></div><div class="rr"><span class="rl">Telefono</span><span class="rv">'+te+'</span></div><div class="rr"><span class="rl">Direccion</span><span class="rv">'+di+'</span></div><div class="rr"><span class="rl">Correo</span><span class="rv">'+em+'</span></div>';
+  var h='';for(var i=0;i<cart.length;i++){var x=cart[i];h+='<div class="rp"><span>'+x.nm+' x'+x.qty+'</span><span style="color:#2563eb;font-weight:600;">'+(x.p>0?'$'+(x.p*x.qty).toFixed(2):'$-')+'</span></div>';}
+  g('reProd').innerHTML=h;
+  var tot=totCart();
+  g('reTot').innerHTML='<div class="tbr tbt"><span>TOTAL</span><span>'+(tot>0?'$'+tot.toFixed(2):'A confirmar')+'</span></div>';
+  g('rePago').innerHTML='<div class="rr"><span class="rl">Pago</span><span class="rv">'+(mPago==='transferencia'?'Transferencia bancaria':'Tarjeta PayPhone')+'</span></div><div class="rr"><span class="rl">Comprobante</span><span class="rv" style="color:#22c55e;">'+cNom+'</span></div><div class="rr"><span class="rl">Entrega</span><span class="rv">'+(mEnt==='local'?'Retiro PAPELSONIC':'Entrega a domicilio')+'</span></div><div class="rr"><span class="rl">Plazo</span><span class="rv">2 dias laborables</span></div>';
+}
+
+function guardar(){
+  var no=g('fNo')?g('fNo').value:'';
+  var txt='PAPERPOINT - PEDIDO\nFecha: '+new Date().toLocaleDateString('es-EC')+'\nNombre: '+no+'\nCedula: '+(g('fCe')?g('fCe').value:'')+'\nTelefono: '+(g('fTe')?g('fTe').value:'')+'\nDireccion: '+(g('fDi')?g('fDi').value:'')+'\nCorreo: '+(g('fEm')?g('fEm').value:'')+'\n\nPRODUCTOS:\n'+cart.map(function(x){return '- '+x.nm+' x'+x.qty;}).join('\n')+'\n\nTOTAL: '+(totCart()>0?'$'+totCart().toFixed(2):'A confirmar')+'\nPAGO: '+(mPago==='transferencia'?'Transferencia':'PayPhone')+'\nENTREGA: '+(mEnt==='local'?'Retiro PAPELSONIC':'Domicilio')+'\nCOMPROBANTE: '+cNom;
+  var a=document.createElement('a');a.href=URL.createObjectURL(new Blob([txt],{type:'text/plain'}));a.download='pedido-paperpoint.txt';a.click();
+}
+
+function volverI(){cart=[];updBadge();showPg('pgMain');window.scrollTo(0,0);}
+
+function updSteps(act){
+  var ss=[{n:1,l:'Facturacion'},{n:2,l:'Pago'},{n:3,l:'Comprobante'}];
+  var h='';
+  for(var i=0;i<ss.length;i++){
+    var s=ss[i],cl=s.n<act?'done':s.n===act?'act':'';
+    h+='<div class="st '+cl+'"><div class="st-d">'+(s.n<act?'v':s.n)+'</div> '+s.l+'</div>';
+    if(i<ss.length-1)h+='<div class="st-l"></div>';
+  }
+  g('stInd').innerHTML=h;
+}
+
+function openU(i){
+  uIdx=i;uChk=[];
+  for(var j=0;j<COMBOS[i].its.length;j++)uChk.push(true);
+  g('uModT').textContent='Lista - '+COMBOS[i].n;
+  rndU();g('uMod').classList.add('open');
+}
+g('uMod').addEventListener('click',function(e){if(e.target===this)closeU();});
+function closeU(){g('uMod').classList.remove('open');}
+
+function rndU(){
+  var h='',its=COMBOS[uIdx].its;
+  for(var i=0;i<its.length;i++){
+    h+='<div class="mi '+(uChk[i]?'':'desel')+'" id="um'+i+'">';
+    h+='<input type="checkbox" id="uc'+i+'" '+(uChk[i]?'checked':'')+' data-i="'+i+'" onchange="togU(+this.dataset.i)"/>';
+    h+='<label for="uc'+i+'">'+its[i]+'</label></div>';
+  }
+  g('uModB').innerHTML=h;
+  g('uModC').textContent=uChk.filter(function(x){return x;}).length;
+}
+
+function togU(i){uChk[i]=g('uc'+i).checked;g('um'+i).classList.toggle('desel',!uChk[i]);g('uModC').textContent=uChk.filter(function(x){return x;}).length;}
+
+function addUCart(){
+  var a=0,its=COMBOS[uIdx].its;
+  for(var i=0;i<its.length;i++){if(uChk[i]){addCart(its[i],'📦',0);a++;}}
+  closeU();toast(a+' productos agregados');
+}
+
+function rndCats(){
+  var h='';
+  for(var i=0;i<CATS.length;i++){
+    var c=CATS[i];
+    h+='<div class="cat" data-id="'+c.id+'" data-lb="'+c.lb+'" onclick="filtCat(this)">';
+    h+='<div class="cat-ic">'+ICONS[c.ic]+'</div><p>'+c.lb+'</p></div>';
+  }
+  g('catG').innerHTML=h;
+}
+
+function filtCat(el){
+  var id=el.dataset.id;
+  if(id==='utiles'){go('utiles');return;}
+  actCat=id;
+  var cs=document.querySelectorAll('.cat');for(var i=0;i<cs.length;i++)cs[i].classList.remove('active');
+  el.classList.add('active');
+  g('fLbl').textContent=el.dataset.lb;g('fBar').style.display='flex';
+  rndP();go('prods');
+}
+
+function clrF(){
+  actCat=null;
+  var cs=document.querySelectorAll('.cat');for(var i=0;i<cs.length;i++)cs[i].classList.remove('active');
+  g('fBar').style.display='none';rndP();
+}
+
+function rndFeat(){
+  var h='';
+  for(var i=0;i<COMBOS.length;i++){
+    var c=COMBOS[i];
+    h+='<div class="feat-card"><div class="feat-img">'+c.e+'</div><div class="feat-info">';
+    h+='<div class="feat-name">Combo '+c.n+'</div><div class="feat-sub">UELAC</div>';
+    h+='<button class="add-btn" data-i="'+i+'" onclick="var c=COMBOS[+this.dataset.i];addCart(c.n,c.e,0)">Agregar al carrito</button>';
+    h+='</div></div>';
+  }
+  g('featG').innerHTML=h;
+}
+
+function rndP(){
+  var q=g('sInp').value.toLowerCase(),list=[];
+  for(var i=0;i<PRODS.length;i++){var p=PRODS[i];if((!actCat||p.cat===actCat)&&(p.n.toLowerCase().indexOf(q)>=0||p.c.toLowerCase().indexOf(q)>=0))list.push(p);}
+  g('pCnt').textContent=list.length+' productos';
+  g('noR').style.display=list.length?'none':'block';
+  var h='';
+  for(var i=0;i<list.length;i++){
+    var p=list[i];
+    h+='<tr><td class="pn">'+(i+1)+'</td><td>'+p.n+'</td><td class="pc">'+p.c+'</td>';
+    h+='<td><button class="s-btn" data-n="'+p.n+'" onclick="addCart(this.dataset.n,\'📦\',0)">Agregar</button></td></tr>';
+  }
+  g('pBody').innerHTML=h;
+}
+
+function rndCombos(){
+  var h='';
+  for(var i=0;i<COMBOS.length;i++){
+    var c=COMBOS[i];
+    h+='<div class="combo"><div class="cc-ic">'+c.e+'</div><div class="cc-n">Lista '+c.n+'</div>';
+    h+='<button class="v-btn" data-i="'+i+'" onclick="openU(+this.dataset.i)">Ver lista</button></div>';
+  }
+  g('cGrid').innerHTML=h;
+}
+
+function rndUList(){
+  var h='';
+  for(var i=0;i<UTILES.length;i++){
+    h+='<div class="u-item" id="ui'+i+'"><input type="checkbox" id="uch'+i+'" data-i="'+i+'" onchange="togUI(+this.dataset.i)"/><label for="uch'+i+'">'+UTILES[i]+'</label></div>';
+  }
+  g('uList').innerHTML=h;updProg();
+}
+
+function togUI(i){g('ui'+i).classList.toggle('chk',g('uch'+i).checked);updProg();}
+
+function updProg(){
+  var t=UTILES.length,c=document.querySelectorAll('#uList input:checked').length;
+  g('uTxt').textContent=c+' de '+t+' utiles listos';
+  g('pFill').style.width=Math.round(c/t*100)+'%';
+}
+
+function rstU(){
+  var cs=document.querySelectorAll('#uList input');for(var i=0;i<cs.length;i++)cs[i].checked=false;
+  var us=document.querySelectorAll('.u-item');for(var i=0;i<us.length;i++)us[i].classList.remove('chk');
+  updProg();
+}
+
+rndCats();rndFeat();rndP();rndCombos();rndUList();
+</script>
+</body>
+</html>
